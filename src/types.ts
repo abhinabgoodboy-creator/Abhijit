@@ -13,3 +13,13 @@ export interface ApkPackage {
 }
 
 export type Language = 'hi' | 'en' | 'bn';
+
+export type RoutePath =
+  | '/'
+  | '/download'
+  | '/about'
+  | '/categories'
+  | '/install-guide'
+  | '/faq'
+  | '/contact'
+  | '/404';

@@ -17,9 +17,16 @@ import {
 import { Language } from '../types';
 import { OFFICIAL_MEDIAFIRE_URL } from '../utils/apkStorage';
 
-export const InstallationGuide: React.FC = () => {
+interface InstallationGuideProps {
+  showMainHeadingAsH1?: boolean;
+}
+
+export const InstallationGuide: React.FC<InstallationGuideProps> = ({
+  showMainHeadingAsH1 = false,
+}) => {
   const [activeLang, setActiveLang] = useState<Language>('hi');
   const [copiedLink, setCopiedLink] = useState(false);
+  const HeadingTag = showMainHeadingAsH1 ? 'h1' : 'h2';
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(OFFICIAL_MEDIAFIRE_URL);
@@ -30,7 +37,7 @@ export const InstallationGuide: React.FC = () => {
   const guideContent = {
     hi: {
       langName: 'हिंदी',
-      title: '📱 MediaFire से APK Download & Install कैसे करें',
+      title: '📱 MediaFire से NAXALBLOUSE APK Download & Install कैसे करें',
       badge: 'आधिकारिक MediaFire क्लाउड गाइड',
       text: 'ऊपर दिए गए "Download App" बटन पर क्लिक करें। आप सीधे हमारे आधिकारिक MediaFire डाउनलोड पेज (NAXAL_BLOUSE_1.00_BETA_.apk) पर रीडायरेक्ट हो जाएंगे। MediaFire पेज पर दिए गए बड़े नीले रंग के "DOWNLOAD" बटन पर टैप करें। फ़ाइल डाउनलोड होते ही Chrome के 3 डॉट्स (⋮) → Downloads में जाकर APK फ़ाइल पर क्लिक करें और ऐप इंस्टॉल करें।',
       warning: 'APK केवल हमारे आधिकारिक MediaFire लिंक (NAXAL_BLOUSE_1.00_BETA_.apk) से ही डाउनलोड करें। किसी अज्ञात या तीसरे पक्ष की वेबसाइट से फ़ाइल कभी डाउनलोड न करें।',
@@ -73,7 +80,7 @@ export const InstallationGuide: React.FC = () => {
     },
     en: {
       langName: 'English',
-      title: '📱 How to Download from MediaFire & Install APK',
+      title: '📱 How to Download & Install NAXALBLOUSE APK from MediaFire',
       badge: 'Official MediaFire Cloud Guide',
       text: 'Click the "Download App" button on this portal. You will be redirected directly to our verified MediaFire download page for NAXAL_BLOUSE_1.00_BETA_.apk. On the MediaFire page, tap the prominent blue "DOWNLOAD" button. Once downloading finishes, go to Chrome 3 dots (⋮) → Downloads, tap the APK package, and complete installation.',
       warning: 'Download the APK only through our verified MediaFire link (NAXAL_BLOUSE_1.00_BETA_.apk). Never download or install packages from unauthorized or unknown third-party websites.',
@@ -116,7 +123,7 @@ export const InstallationGuide: React.FC = () => {
     },
     bn: {
       langName: 'বাংলা',
-      title: '📱 MediaFire থেকে APK Download ও Install করার নিয়ম',
+      title: '📱 MediaFire থেকে NAXALBLOUSE APK Download ও Install করার নিয়ম',
       badge: 'অফিসিয়াল MediaFire ক্লাউড গাইড',
       text: 'ওয়েবসাইটে "Download App" বাটনে ক্লিক করুন। এটি আপনাকে সরাসরি আমাদের অফিসিয়াল MediaFire ডাউনলোড পেজে (NAXAL_BLOUSE_1.00_BETA_.apk) নিয়ে যাবে। সেখানে বড় নীল রঙের "DOWNLOAD" বাটনে চাপ দিন। ডাউনলোড শেষ হলে Chrome ব্রাউজারের ৩টি ডট (⋮) → Downloads-এ গিয়ে APK ফাইলে ট্যাপ করে Install সম্পন্ন করুন।',
       warning: 'APK শুধুমাত্র আমাদের অফিসিয়াল MediaFire লিংক (NAXAL_BLOUSE_1.00_BETA_.apk) থেকেই ডাউনলোড করুন। কোনো অপরিচিত বা অজানা ওয়েবসাইট থেকে APK ফাইল ডাউনলোড করবেন না।',
@@ -162,7 +169,7 @@ export const InstallationGuide: React.FC = () => {
   const current = guideContent[activeLang];
 
   return (
-    <section id="installation-guide" className="py-8 sm:py-12 px-4 scroll-mt-20">
+    <section id="installation-guide" aria-labelledby="install-guide-heading" className="py-8 sm:py-12 px-4 scroll-mt-20">
       <div className="max-w-4xl mx-auto space-y-6">
         
         {/* Card Header & Language Switcher */}
@@ -171,23 +178,24 @@ export const InstallationGuide: React.FC = () => {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-white/10">
             <div className="space-y-1">
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 text-amber-300 text-xs font-mono font-medium border border-amber-500/20">
-                <Globe className="w-3.5 h-3.5" />
+                <Globe className="w-3.5 h-3.5" aria-hidden="true" />
                 <span>{current.badge}</span>
               </div>
-              <h3 className="font-cinzel text-xl sm:text-2xl font-bold gold-gradient-text">
+              <HeadingTag id="install-guide-heading" className="font-cinzel text-xl sm:text-2xl font-bold gold-gradient-text">
                 {current.title}
-              </h3>
+              </HeadingTag>
             </div>
 
             {/* Language Switcher Tabs */}
             <div className="flex items-center p-1 rounded-xl bg-black/60 border border-white/10 text-xs">
               <span className="px-2 text-zinc-500 hidden sm:flex items-center gap-1 text-[11px]">
-                <Languages className="w-3 h-3" />
+                <Languages className="w-3 h-3" aria-hidden="true" />
                 <span>भाषा / Lang:</span>
               </span>
               {(['hi', 'en', 'bn'] as Language[]).map((langKey) => (
                 <button
                   key={langKey}
+                  type="button"
                   onClick={() => setActiveLang(langKey)}
                   className={`px-3 py-1.5 rounded-lg font-medium transition-all cursor-pointer ${
                     activeLang === langKey
@@ -221,13 +229,13 @@ export const InstallationGuide: React.FC = () => {
                         {step.num}
                       </span>
                       <div className="p-1.5 rounded-lg bg-white/5 text-amber-400">
-                        <Icon className="w-4 h-4" />
+                        <Icon className="w-4 h-4" aria-hidden="true" />
                       </div>
                     </div>
                     
-                    <h5 className="font-semibold text-zinc-100 text-xs sm:text-sm mb-1">
+                    <h3 className="font-semibold text-zinc-100 text-xs sm:text-sm mb-1">
                       {step.title}
-                    </h5>
+                    </h3>
                     <p className="text-[11px] sm:text-xs text-zinc-400 leading-normal mb-3">
                       {step.desc}
                     </p>
